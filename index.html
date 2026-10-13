@@ -4,207 +4,130 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<style>
-  :root{ padding-top:env(safe-area-inset-top, 0px); padding-bottom:env(safe-area-inset-bottom, 0px); }
-  html,body{margin:0;}
-  img{max-width:100%;}
-  [hidden]{display:none !important;}
-</style>
 <title>ケガの記録と活用に関するアンケート</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap">
 <style>
   :root{
-    --ground:#eef1f4;
-    --surface:#ffffff;
-    --surface-2:#f6f8fa;
-    --ink:#161b21;
-    --ink-2:#4d565f;
-    --ink-3:#727c86;
-    --line:#d8dee4;
-    --line-soft:#e8ecf0;
-    --accent:#1c4f77;
-    --accent-soft:#e7eef5;
-    --req:#a1281f;
-    --demo:#7a5a12;
-    --demo-bg:#fdf4e0;
-    --radius:10px;
-    --maxw:780px;
+    --ground:#eef1f4; --surface:#ffffff; --surface-2:#f6f8fa;
+    --ink:#161b21; --ink-2:#4d565f; --ink-3:#727c86;
+    --line:#d8dee4; --line-soft:#e8ecf0;
+    --accent:#1c4f77; --accent-soft:#e7eef5; --req:#a1281f;
     color-scheme: light;
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --ground:#12161a;
-      --surface:#1a1f25;
-      --surface-2:#20262d;
-      --ink:#e9edf1;
-      --ink-2:#b3bcc5;
-      --ink-3:#8d97a1;
-      --line:#333c45;
-      --line-soft:#282f37;
-      --accent:#7fb3da;
-      --accent-soft:#23313d;
-      --req:#e08b82;
-      --demo:#e4c584;
-      --demo-bg:#2a2418;
+      --ground:#12161a; --surface:#1a1f25; --surface-2:#20262d;
+      --ink:#e9edf1; --ink-2:#b3bcc5; --ink-3:#8d97a1;
+      --line:#333c45; --line-soft:#282f37;
+      --accent:#7fb3da; --accent-soft:#23313d; --req:#e08b82;
       color-scheme: dark;
     }
   }
-  :root[data-theme="dark"]{
-    --ground:#12161a;
-    --surface:#1a1f25;
-    --surface-2:#20262d;
-    --ink:#e9edf1;
-    --ink-2:#b3bcc5;
-    --ink-3:#8d97a1;
-    --line:#333c45;
-    --line-soft:#282f37;
-    --accent:#7fb3da;
-    --accent-soft:#23313d;
-    --req:#e08b82;
-    --demo:#e4c584;
-    --demo-bg:#2a2418;
-    color-scheme: dark;
-  }
   *{box-sizing:border-box;}
+  html,body{margin:0;}
   body{
-    margin:0; background:var(--ground); color:var(--ink);
+    background:var(--ground); color:var(--ink);
     font-family:"Noto Sans JP",-apple-system,"Hiragino Sans","Yu Gothic",sans-serif;
-    font-size:15px; line-height:1.85;
-    -webkit-font-smoothing:antialiased;
+    font-size:15px; line-height:1.85; -webkit-font-smoothing:antialiased;
   }
-  .sheet{max-width:var(--maxw); margin:0 auto; background:var(--surface); padding-block:0;}
-  .pad{padding:0 24px;}
+  img{max-width:100%;}
+  [hidden]{display:none !important;}
+  .sheet{max-width:820px; margin:0 auto; background:var(--surface);}
+  .pad{padding:0 26px;}
   @media (max-width:480px){ .pad{padding:0 16px;} }
 
-  /* demo banner */
-  .notice{
-    background:var(--surface-2); color:var(--ink-2); border-bottom:1px solid var(--line);
-    font-size:12.5px; line-height:1.8; padding-block:14px;
-  }
-  .notice p{margin:0 0 6px;}
-  .notice p:last-child{margin-bottom:0;}
-  .notice .nt{font-size:13.5px; color:var(--ink);}
-  .notice .nt2{color:var(--ink-3); font-size:12px;}
-  .sending{opacity:.6; pointer-events:none;}
-  .thanks{
-    border:1px solid var(--accent); border-radius:10px; background:var(--accent-soft);
-    padding:24px 22px; margin-block:30px 50px; line-height:1.9;
-  }
-  .thanks h2{font-family:"Zen Kaku Gothic New",sans-serif; font-size:17px; margin:0 0 10px;}
-  .thanks .rcpt{
-    display:inline-block; margin-top:10px; padding:8px 14px; background:var(--surface);
-    border:1px solid var(--line); border-radius:8px; font-variant-numeric:tabular-nums;
-    letter-spacing:.08em; font-weight:700;
-  }
-
-  header.head{border-bottom:2px solid var(--ink); padding-block:28px 18px;}
-  h1{
-    font-family:"Zen Kaku Gothic New",sans-serif; font-weight:700;
-    font-size:23px; line-height:1.5; margin:0 0 10px; text-wrap:balance;
-  }
-  .lead{font-size:14px; color:var(--ink-2); margin:0;}
-  .meta{font-size:12px; color:var(--ink-3); margin:14px 0 0; display:flex; flex-wrap:wrap; gap:6px 18px;}
-
-  /* progress */
-  .prog{
+  /* ステップ表示 */
+  .steps{
     position:sticky; top:env(safe-area-inset-top, 0px); z-index:5;
-    background:color-mix(in srgb, var(--surface) 92%, transparent);
-    backdrop-filter:blur(6px);
-    border-bottom:1px solid var(--line-soft);
-    padding:9px 24px; font-size:12px; color:var(--ink-3);
-    display:flex; align-items:center; gap:12px;
+    background:color-mix(in srgb, var(--surface) 94%, transparent);
+    backdrop-filter:blur(6px); border-bottom:1px solid var(--line-soft);
+    display:flex; gap:10px; padding:11px 26px; font-size:12px; color:var(--ink-3);
+    flex-wrap:wrap;
   }
-  .prog .track{flex:1; height:4px; background:var(--line-soft); border-radius:99px; overflow:hidden;}
-  .prog .fill{height:100%; width:0%; background:var(--accent); transition:width .25s ease;}
-  .prog .num{font-variant-numeric:tabular-nums; white-space:nowrap;}
-
-  section.block{padding-block:6px 0;}
-  .group-label{
-    font-family:"Zen Kaku Gothic New",sans-serif; font-size:12px; letter-spacing:.12em;
-    color:var(--ink-3); text-transform:none; margin:34px 0 4px; padding-top:14px;
-    border-top:1px solid var(--line-soft);
+  .steps span{display:flex; align-items:center; gap:6px;}
+  .steps .no{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:20px; height:20px; border-radius:50%; background:var(--line-soft);
+    color:var(--ink-3); font-size:11px; font-weight:700;
   }
+  .steps .on{color:var(--accent); font-weight:700;}
+  .steps .on .no{background:var(--accent); color:#fff;}
 
+  header.head{border-bottom:2px solid var(--ink); padding-block:26px 16px;}
+  h1{font-family:"Zen Kaku Gothic New",sans-serif; font-weight:700; font-size:22px; line-height:1.5; margin:0 0 8px; text-wrap:balance;}
+  .lead{font-size:14px; color:var(--ink-2); margin:0;}
+
+  h2.sec{font-family:"Zen Kaku Gothic New",sans-serif; font-size:17px; margin:26px 0 12px; padding-bottom:6px; border-bottom:1px solid var(--line);}
+  .doc h3{font-size:14.5px; margin:22px 0 6px; color:var(--accent); font-family:"Zen Kaku Gothic New",sans-serif;}
+  .doc h4{font-size:13.5px; margin:16px 0 4px; color:var(--ink-2);}
+  .doc p{margin:0 0 10px; font-size:14px; line-height:1.95;}
+  .doc p.ki{text-align:center; margin:18px 0 6px; font-weight:700;}
+  .doc p.kv{background:var(--surface-2); border:1px solid var(--line-soft); border-radius:7px; padding:7px 11px; font-size:13.5px; margin-bottom:6px;}
+  .doc ul{margin:0 0 12px; padding-left:1.25em;}
+  .doc li{font-size:14px; line-height:1.95; margin-bottom:6px;}
+  .doc a{color:var(--accent);}
+
+  .askbox{
+    margin:30px 0 10px; border:2px solid var(--accent); border-radius:10px;
+    background:var(--accent-soft); padding:18px 20px;
+  }
+  .askbox .q{font-weight:700; font-size:15.5px; margin:0 0 10px;}
+  label.opt{display:flex; align-items:flex-start; gap:10px; padding:7px 10px; margin:0 -10px; border-radius:8px; cursor:pointer; font-size:14.5px; line-height:1.7;}
+  label.opt:hover{background:color-mix(in srgb, var(--surface) 55%, transparent);}
+  label.opt input{margin:7px 0 0; flex:none; width:17px; height:17px; accent-color:var(--accent);}
+
+  /* 同意書 */
+  .consent{border:1px solid var(--line); border-radius:10px; padding:20px 22px; margin-top:6px;}
+  .consent h2{font-family:"Zen Kaku Gothic New",sans-serif; font-size:19px; letter-spacing:.35em; text-align:center; margin:0 0 18px;}
+  .consent .to{font-size:14px; margin:0 0 14px;}
+  .consent .body{font-size:14px; line-height:1.95; margin:0 0 16px;}
+  .consent .cap{font-size:13px; color:var(--ink-3); margin:0 0 8px;}
+  label.ckrow{display:flex; align-items:flex-start; gap:11px; padding:9px 10px; margin:0 -10px; border-radius:8px; cursor:pointer; font-size:14px; line-height:1.8; border-bottom:1px solid var(--line-soft);}
+  label.ckrow:hover{background:var(--surface-2);}
+  label.ckrow input{margin:7px 0 0; flex:none; width:17px; height:17px; accent-color:var(--accent);}
+  .sign{display:flex; flex-wrap:wrap; gap:18px; margin-top:20px; padding-top:16px; border-top:1px solid var(--line);}
+  .sign div{flex:1 1 220px;}
+  .sign label{display:block; font-size:13px; color:var(--ink-2); margin-bottom:6px;}
+  .foot-note{font-size:12.5px; color:var(--ink-3); line-height:1.85; margin-top:18px; padding-top:12px; border-top:1px solid var(--line-soft);}
+
+  /* 設問 */
   .q{padding-block:22px; border-bottom:1px solid var(--line-soft); display:grid; grid-template-columns:44px 1fr; gap:0 12px;}
-  .q.hidden{display:none;}
-  .qnum{
-    font-family:"Zen Kaku Gothic New",sans-serif; font-weight:700; font-size:13px;
-    color:var(--accent); font-variant-numeric:tabular-nums; padding-top:3px;
-  }
+  .qnum{font-family:"Zen Kaku Gothic New",sans-serif; font-weight:700; font-size:13px; color:var(--accent); font-variant-numeric:tabular-nums; padding-top:3px;}
   .qbody{min-width:0;}
   .qtext{font-weight:500; font-size:15.5px; line-height:1.75; margin:0;}
   .req{color:var(--req); font-size:11.5px; font-weight:700; margin-left:8px; white-space:nowrap;}
   .note{font-size:12.5px; color:var(--ink-3); line-height:1.7; margin:6px 0 0;}
   .opts{margin-top:12px; display:flex; flex-direction:column; gap:2px;}
-  label.opt{
-    display:flex; align-items:flex-start; gap:10px; padding:7px 10px; margin:0 -10px;
-    border-radius:8px; cursor:pointer; font-size:14.5px; line-height:1.7;
-  }
-  label.opt:hover{background:var(--surface-2);}
-  label.opt input{margin:7px 0 0; flex:none; width:17px; height:17px; accent-color:var(--accent);}
-  .inline-input{margin:2px 0 8px 37px;}
-  input[type="text"], input[type="number"], textarea{
+  .group-label{font-family:"Zen Kaku Gothic New",sans-serif; font-size:12px; letter-spacing:.12em; color:var(--ink-3); margin:34px 0 4px; padding-top:14px; border-top:1px solid var(--line-soft);}
+  input[type="text"], input[type="number"], input[type="date"], textarea{
     font:inherit; font-size:14px; color:var(--ink); background:var(--surface);
     border:1px solid var(--line); border-radius:8px; padding:8px 11px; width:100%;
-  }
-  input[type="text"]:focus, input[type="number"]:focus, textarea:focus, select:focus{
-    outline:2px solid var(--accent); outline-offset:1px; border-color:transparent;
   }
   input[type="number"]{max-width:130px; text-align:right; font-variant-numeric:tabular-nums;}
   .withunit{display:flex; align-items:center; gap:9px; margin-top:12px; font-size:14px;}
   textarea{min-height:110px; resize:vertical; line-height:1.8; margin-top:12px;}
-
-  .tablewrap{overflow-x:auto; margin-top:14px; border:1px solid var(--line); border-radius:var(--radius);}
+  .inline-input{margin:2px 0 8px 37px;}
+  .tablewrap{overflow-x:auto; margin-top:14px; border:1px solid var(--line); border-radius:10px;}
   table.grid{border-collapse:collapse; width:100%; min-width:520px; font-size:13px;}
-  table.grid th{
-    background:var(--surface-2); font-weight:500; font-size:11.5px; line-height:1.45; color:var(--ink-2);
-    padding:9px 6px; border-bottom:1px solid var(--line); vertical-align:bottom;
-  }
+  table.grid th{background:var(--surface-2); font-weight:500; font-size:11.5px; line-height:1.45; color:var(--ink-2); padding:9px 6px; border-bottom:1px solid var(--line); vertical-align:bottom;}
   table.grid th.item{text-align:left; width:46%;}
   table.grid td{padding:9px 6px; border-bottom:1px solid var(--line-soft); text-align:center;}
-  table.grid tr:last-child td{border-bottom:none;}
   table.grid td.item{text-align:left; font-size:13.5px; line-height:1.65;}
-  table.grid tbody tr:hover{background:var(--surface-2);}
   table.grid input[type="radio"]{width:17px; height:17px; accent-color:var(--accent);}
-  .rowtext{padding:0 10px 10px 10px; background:var(--surface-2);}
-
-  .rank-list{margin-top:14px; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden;}
-  .rank-row{
-    display:flex; align-items:center; justify-content:space-between; gap:14px;
-    padding:11px 14px; border-bottom:1px solid var(--line-soft); font-size:14px; line-height:1.6;
-  }
+  .rank-list{margin-top:14px; border:1px solid var(--line); border-radius:10px; overflow:hidden;}
+  .rank-row{display:flex; align-items:center; justify-content:space-between; gap:14px; padding:11px 14px; border-bottom:1px solid var(--line-soft); font-size:14px; line-height:1.6;}
   .rank-row:last-child{border-bottom:none;}
-  select{
-    font:inherit; font-size:14px; color:var(--ink); background:var(--surface);
-    border:1px solid var(--line); border-radius:8px; padding:7px 10px; flex:none;
-  }
+  select{font:inherit; font-size:14px; color:var(--ink); background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:7px 10px; flex:none;}
 
-  .actions{padding-block:30px 44px;}
-  button.submit{
-    font:inherit; font-weight:700; font-size:15px; font-family:"Zen Kaku Gothic New",sans-serif;
-    background:var(--accent); color:#fff; border:none; border-radius:9px;
-    padding:13px 30px; cursor:pointer;
-  }
-  button.submit:hover{filter:brightness(1.08);}
-  button.submit:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
-  .errbox{
-    margin-top:16px; border:1px solid var(--req); border-radius:9px; padding:13px 15px;
-    font-size:13px; color:var(--req); line-height:1.8; background:color-mix(in srgb, var(--req) 7%, var(--surface));
-  }
-  .errbox.hidden, .donebox.hidden{display:none;}
-  .donebox{
-    margin-top:18px; border:1px solid var(--accent); border-radius:9px; padding:16px 18px;
-    background:var(--accent-soft); font-size:13.5px; line-height:1.8;
-  }
-  .donebox h2{font-family:"Zen Kaku Gothic New",sans-serif; font-size:15px; margin:0 0 8px;}
-  .donebox pre{
-    margin:12px 0 0; padding:12px; background:var(--surface); border:1px solid var(--line);
-    border-radius:8px; font-size:11.5px; line-height:1.6; max-height:280px; overflow:auto;
-    white-space:pre-wrap; word-break:break-all; color:var(--ink-2);
-  }
-  .q.missing{background:color-mix(in srgb, var(--req) 6%, transparent); border-radius:8px;}
+  .nav{display:flex; gap:12px; flex-wrap:wrap; padding-block:28px 46px;}
+  button{font:inherit; font-family:"Zen Kaku Gothic New",sans-serif; font-weight:700; font-size:15px; border-radius:9px; padding:13px 28px; cursor:pointer; border:none;}
+  button.primary{background:var(--accent); color:#fff;}
+  button.ghost{background:transparent; color:var(--ink-2); border:1px solid var(--line);}
+  button:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+  .msg{margin-top:16px; border:1px solid var(--accent); border-radius:9px; padding:14px 16px; background:var(--accent-soft); font-size:14px; line-height:1.85;}
+  .msg.warn{border-color:var(--req); color:var(--req); background:color-mix(in srgb, var(--req) 7%, var(--surface));}
   footer.foot{border-top:1px solid var(--line); padding-block:18px 40px; font-size:12px; color:var(--ink-3); line-height:1.8;}
   @media (max-width:520px){
     .q{grid-template-columns:1fr; gap:0;}
@@ -213,32 +136,165 @@
   }
   @media (prefers-reduced-motion:reduce){ *{transition:none !important;} }
 </style>
-
-<div class="notice pad" id="notice">
-  <p class="nt"><b>本調査へのご協力のお願い</b></p>
-  <p>本調査は、全国の大学サッカー部におけるケガの記録の実態と、記録・活用の阻害要因・促進要因を明らかにすることを目的とした研究です（研究責任者：眞下 苑子（筑波大学体育系）／研究分担者：奥垣 陽斗（花田学園日本鍼灸理療専門学校））。</p>
-  <p>回答は<b>無記名</b>で、お名前・メールアドレス・IPアドレスは取得しません。所属チーム名は、重複回答の確認とチーム単位の集計にのみ使用し、個人やチームが特定される形で公表することはありません。</p>
-  <p>ご回答は任意です。回答されないこと、途中でやめられることによる不利益は一切ありません。所要時間は10〜15分です。</p>
-  <p><b>回答を送信いただいたことをもって、本研究へのご同意とみなします。</b></p>
-  <p class="nt2">お問い合わせ先：gakihiro.fa0802@gmail.com　／　倫理審査承認番号：（倫理審査の承認後に記載します）</p>
-</div>
-
+</head>
+<body>
 <div class="sheet">
-  <div class="prog pad" id="prog">
-    <span class="num" id="progNum">0 / 32 問</span>
-    <span class="track"><span class="fill" id="progFill"></span></span>
+
+  <div class="steps pad" id="steps">
+    <span id="s1" class="on"><i class="no">1</i>研究についての説明</span>
+    <span id="s2"><i class="no">2</i>同意書</span>
+    <span id="s3"><i class="no">3</i>質問紙</span>
   </div>
 
-  <div class="pad">
+  <!-- ===================== 1ページ目：研究についての説明 ===================== -->
+  <section id="page1" class="pad">
+    <header class="head">
+      <h1>研究についての説明</h1>
+      <p class="lead">研究課題名「大学サッカーにおける傷害データの収集および活用に関する実態」</p>
+    </header>
+
+    <div class="doc">
+      <h3>はじめに</h3>
+      <p>この文書は、研究課題名「大学サッカーにおける傷害データの収集および活用に関する実態」への研究の参加をお願いするための説明文書です。この説明文書をよくお読みになって、この研究にご参加いただけるかどうかをご検討ください。 研究に参加されるかどうかはあなたの自由意思で決めてください。研究に参加されなくてもあなたが不利益を被ることはありません。説明を受けたその場で決める必要はありません。この説明文書をお手元に保存していただき、検討してから決めていただくこともできます。また、研究への参加に同意した後であっても、研究発表までの間、同意を撤回できます。撤回したことによってあなたが不利益な取扱いを受けることはありません。 研究の内容や言葉について、わからないことや、心配なこと、疑問に思ったことなどがありましたら、どんなことでも遠慮なく説明者である研究責任者にお尋ねください。</p>
+      <p class="kv">研究責任者・説明者　所属　筑波大学　体育系　准教授</p>
+      <p class="kv">氏名　眞下苑子</p>
+      <p class="kv">連絡先　電話：029-853-2667</p>
+      <p class="kv">E-mail：mashimo.sonoko.gp@u.tsukuba.ac.jp</p>
+      <p class="ki">記</p>
+      <h3>１　研究課題名</h3>
+      <p>この研究の研究課題名は、「大学サッカーにおける傷害データの収集および活用に関する実態」です。 この研究は、筑波大学体育系研究倫理委員会の審査を経て、筑波大学体育系長の許可を受けて実施しています。</p>
+      <h3>２　研究の背景</h3>
+      <p>大学サッカーでは、過密な試合日程や夏の連戦・猛暑に加え、メディカルスタッフ（医師やアスレティックトレーナーなど、選手の健康管理を担う専門スタッフ）の配置や資格の有無にチームによって差があり、選手の健康管理にはさまざまな課題があります。傷害を予防するためには、まず、統一した基準で傷害の発生状況を継続的に把握することが出発点となります。国際オリンピック委員会は、傷害の記録・報告に関する国際的な基準を示しており、サッカー向けの基準も公表されています。国内でも、2022年に日本臨床スポーツ医学会と日本アスレティックトレーニング学会が、これに沿った日本語の記録基準（提言書）を公表しました。しかし、日本の大学運動部を対象とした先行調査では、試合中の傷害を記録していたチームは48.3%、練習中の傷害を記録していたチームは42.7%にとどまり、記録を妨げる要因として、専門的な知識をもつ人材を確保するための資金や、記録に割ける時間の不足が報告されています。ただし、この調査は複数の競技を対象としたものであり、大学サッカーに限った記録の実態や、記録を妨げる要因・可能にする要因は明らかになっていません。</p>
+      <h3>３　研究の目的及び意義</h3>
+      <p>この研究は、全国の大学サッカー部で傷害の記録を担当している方などを対象に質問紙調査を行い、①傷害の記録の実態（記録しているかどうか、誰が記録しているか、どのような項目を記録しているか、傷害やその重さをどのように定めているか、曝露〔選手が傷害のリスクにさらされている時間や回数〕を記録しているか、記録した情報をどのように活用しているか）、②記録や活用を妨げる要因（阻害要因）と可能にする要因（促進要因）、③それらがチームの体制や競技レベルによってどのように異なるか、を明らかにすることを目的としています。この研究で最も明らかにしたいことは、試合中および練習中の傷害を記録しているチームの割合です。あわせて、記録している方の職種や資格、傷害の調査フォームの有無や項目、傷害や重症度の定め方、曝露の記録の状況、情報の活用状況、阻害要因13項目・促進要因9項目への回答の分布、傷害の予防に関する優先順位についても調べます。この研究の成果は、全国または連盟単位で傷害の調査を導入する際に、どの項目を必ず記録するべきか、どのような支援を優先して整えるべきかを判断するための基礎資料になると考えています。</p>
+      <h3>４　予想される研究上の貢献・期待される利益</h3>
+      <p>この研究の成果は、日本アスレティックトレーニング学会または日本フットボール学会などでの学会発表、および学術論文として公表します。学術的には、大学サッカーにおける傷害の記録の実態と、記録・活用の阻害要因・促進要因を全国規模で示す資料となります。将来的には、各大学への情報の還元を通じて、傷害の予防やメディカル環境の改善に役立てることを目指しています。</p>
+      <h3>５　研究実施期間及び試料・情報等の保存期間</h3>
+      <p>この研究は、2031年3月31日まで実施する予定です。 研究期間終了後、2041年3月31日まで、取得した情報を保存します。</p>
+      <h3>６　研究実施場所及び研究実施体制</h3>
+      <h4>（１）共同研究の有無</h4>
+      <p>この研究は、筑波大学体育系が単独で実施する研究であり、他の研究機関との共同研究ではありません。</p>
+      <h4>（２）研究実施場所</h4>
+      <p>調査は、研究対象者の皆様に、ご自身のスマートフォンまたはパソコンからWebフォーム（インターネット上の回答画面）にご回答いただく方法で行います。収集したデータの分析は、筑波大学の総合研究棟D621（教員研究室）で行い、データは同室内の鍵をかけたロッカーに保管します。</p>
+      <h4>（３）組織</h4>
+      <p>研究組織は、別紙の通りです。</p>
+      <h3>７　研究対象者</h3>
+      <p>この研究の対象は、全日本大学サッカー連盟に所属する9つの地域連盟（北海道・東北・関東・北信越・東海・関西・中国・四国・九州）に加盟する大学サッカー部で、傷害の記録を担当している方、またはチームの傷害の記録の状況を把握している方（メディカルスタッフ、コーチングスタッフ、学生トレーナー、マネージャー等）です。1チームにつき1名にご回答をお願いしており、合計100チーム（100名）からのご回答を目標としています。18歳以上の方を対象とし、性別は問いません。18歳未満の方はご回答いただけません。あなたには、チームの責任者を通じてこの研究へのご協力をお願いしています。なお、募集にあたっては、事前に各地域連盟の責任者に対し、文書により研究協力を依頼し、承諾を得ます。地域連盟を通じたご依頼ができない地域では、各チームの責任者に直接ご依頼します。 ご回答に要する時間は約15分で、ご回答は1回のみです。参加期間は、ご回答いただく1日のみです。この研究にご参加いただくことに対する謝金・謝礼はありません。</p>
+      <h3>８　実施内容</h3>
+      <h4>（１）実施方法の説明</h4>
+      <p>調査は、体育系研究倫理委員会の承認後、2027年1月から3月にかけて実施する予定です。回答期間は2ヶ月です。2027年4月から6月に結果を分析する予定です。 この説明文書をお読みいただいたうえで、下記14（その他）に記載したURLまたはQRコードからWebフォームにアクセスしてください。Webフォームの冒頭にも、この説明文書の内容を掲載しています。冒頭の同意確認欄の「説明を読み、内容を理解したうえで、研究への参加に同意します」にチェックすると、回答画面に進むことができます。ご回答を送信していただいたことをもって、研究へのご参加に同意いただいたものとします。お名前、ご住所、電話番号、メールアドレスなどは伺いません。同じチームからの重複した回答の確認、チームごとの集計、および同意の撤回のお申出があった場合のご回答の特定のために、所属チーム名のみご記入をお願いします。 質問紙は、32問で構成され、伺う内容はあなたの属性（学生かどうか、医療資格などの有無、チームでの役割）とチームの情報（選手数、所属リーグ、競技レベル、練習時間・日数）、試合中・練習中のケガの記録の状況（記録の有無、記録している人、集計の頻度と担当者）、ケガの調査フォームの有無と内容、ケガや重症度の定め方、曝露の記録の有無、ケガの情報の活用状況、記録や活用を妨げる要因（13項目）と可能にする要因（9項目）、ケガの予防に関する優先順位、自由記述です。あなたご自身の傷害や病気の経験は伺いません。 Webフォームは、GitHub社のGitHub Pages（ウェブページを公開するサービス）上に設置します。通信はHTTPS（暗号化通信）により暗号化されます。GitHub Pagesは画面の表示のみを行い、ご回答の内容がGitHub社のサーバに保存されることはありません。なお、GitHub社はセキュリティのために閲覧者のIPアドレス（インターネット上の接続元を示す番号）を記録していますが、研究者がこれを取得することはありません。送信されたご回答は、Google社のGoogle Apps Script（Googleのサービス上で動作するプログラム）を通じて、この研究専用に作成したGoogleアカウントのGoogleスプレッドシート（表計算ファイル）に保存されます。このとき、あなたのIPアドレスやGoogleアカウントの情報は受け取らず、回答の際にログインしていただく必要もありません。保存されたデータは暗号化されます。研究専用アカウントには2段階認証を設定し、データを閲覧・編集できるのは研究責任者（眞下苑子）と研究分担者（小井土正亮）の2名のみとし、外部に共有・公開することはありません。GitHub社およびGoogle社のサービスでは、データが日本国外のサーバで保存・処理される場合があります。回答の受付が終了したら、研究責任者がただちにデータを研究用のパソコンに移し、Google上のデータを削除します。削除後、Googleのシステムから完全に削除されるまでにおおむね2ヶ月、バックアップから削除されるまでに最長6ヶ月かかります。 WebフォームのURLは、地域連盟とチームの責任者を通じて研究対象者の皆様にのみお知らせし、一般には公開しません。受付期間中は、受信した件数と内容を定期的に確認します。同じチームから複数のご回答があった場合は、最初に送信された1件を採用します。対象チームに該当しないチーム名のご回答は分析から除きます。 集めたデータは、設問ごとに回答の人数と割合を集計します。阻害要因・促進要因は、「ややあてはまる」「とてもあてはまる」（または「やや有益である」「とても有益である」）と答えた割合の高い順に整理します。また、回答者の役割、医療資格の有無、競技レベル、所属リーグごとに比較します。回答率は、ご依頼したチームの数をもとに、地域連盟ごと・依頼の経路ごとに算出します。 この研究はインターネット上の質問紙調査であり、身体への負担や危険性はありません。ただし、ご回答に約15分を要します。また、チームの傷害の記録の体制についてお答えいただくため、記録の体制が十分でない場合などに、心理的な負担を感じられる可能性があります。この調査は、チームや個人の記録の体制を評価したり順位をつけたりするものではなく、記録の実態と、記録を行うための条件を把握するためのものです。ご回答中に気分が悪くなったり負担を感じたりした場合には、いつでも中断・中止していただけます。送信前に中止されたご回答は保存されません。お答えになりたくない設問には回答しなくて構いません。中断や未回答によって不利益を被ることは一切ありません。また、Webフォームやデータの保存先で情報漏えいのおそれがわかった場合には、研究責任者が直ちに回答の受付を停止し、調査の再開または中止を判断します。 研究用パソコンに移したデータは、不正アクセス対策およびウイルス対策を施し、パスワードを設定したパソコンに保存し、研究責任者および研究分担者以外はアクセスできないようにします。パソコンは、総合研究棟D621（教員研究室）内の鍵をかけたロッカーに保管し、使用時以外は施錠します。ロッカーと研究室の鍵は研究責任者が管理します。分析は同室で当該パソコンを用いて行い、データを電子メールへの添付やUSBメモリなどで持ち出すことはありません。データを研究用パソコンに移した後、ただちに所属チーム名を記号に置き換え、分析にはこの記号のデータのみを用います。チーム名と記号の対応表、およびチーム名を含む元のデータは研究責任者のみが取り扱い、別のパスワード付きファイルとして保存します。結果は集計した値のみで公表し、該当する数が少なくチームや回答者が推測されるおそれのある区分はまとめて示します。</p>
+      <h4>（２）説明図</h4>
+      <h3>９　研究における倫理的配慮</h3>
+      <h4>（１）研究の対象となる個人の人権擁護</h4>
+      <h4>① 個人情報の管理</h4>
+      <ul><li>アンケートの際に、氏名・住所等を無記名とする方法で行い、個人の名前・住所等の個人情報を取得しません。</li><li>この説明文書や解析するデータには、あなたの名前・住所等の個人情報は含みません。</li><li>重複回答の検出、チーム単位の集計、および同意撤回の申出があった場合の回答の特定のため、所属チーム名を取得します。所属チーム名は、チームでの役割や保有資格と組み合わせることで回答者個人が推定されうるため、個人情報に準じて取り扱います。データのダウンロード後ただちに所属チーム名を記号に置き換え、対応表によって復元できるように匿名化します。</li><li>入手した個人情報等は、独立行政法人等の保有する個人情報の保護に関する法律、その他の法令を遵守し、また、あなたから同意を得られた範囲内で取り扱います。</li><li>分析に際しては、データをコード化し、個人が特定されないようにします。</li></ul>
+      <h4>② 個人情報の保管</h4>
+      <ul><li>Webフォームから送信された回答データは、研究専用のGoogleアカウント（2段階認証を設定）のGoogleスプレッドシートに保存し、閲覧・編集権限を研究責任者および研究分担者に限定します。回答受付の終了後、研究責任者がただちにデータをダウンロードし、侵入対策及びウイルス防御対策を施したパソコンに保存したうえで、Google上の原本を削除します。パソコンにはパスワードを設定し、研究責任者および研究分担者以外はアクセスできないようにします。</li><li>研究の実施に伴って取得された個人情報等の漏えい、滅失またはき損の防止その他の安全管理のために適切な取り扱いを行ないます。</li><li>回答データを保存したパソコンは、総合研究棟D621（教員研究室）内の鍵をかけたロッカーに保管し、使用時以外は施錠します。ロッカーおよび研究室の鍵は研究責任者が管理します。</li></ul>
+      <h4>③ 個人情報の破棄</h4>
+      <ul><li>電子データは、保存期間満了時に完全に消去します。</li><li>Google上の回答データの原本は、回答受付の終了後、ダウンロードの完了時にただちに削除します。</li></ul>
+      <h4>④ 個人情報の開示等</h4>
+      <ul><li>研究結果を論文発表、学会発表およびインターネット掲載で公開します。</li><li>研究結果を公開する際には、研究対象者個人および所属チームを特定できる情報を開示しません。</li><li>研究への参加に同意した後であっても、研究発表までの間は、問い合わせ先に所属チーム名と回答日を連絡することにより同意を撤回できます。撤回の申出があった場合は、所属チーム名と対応表により当該回答を特定し、削除します。</li><li>保有する個人情報に関して情報の開示等の求めがあった場合には、該当する個人情報を開示します。また、他の研究対象者の個人情報の保護及び当該研究の独創性の確保に支障がない範囲内で研究計画書及び研究の方法に関する資料を入手又は閲覧できるようにします。</li><li>あなたやその関係者からの相談に対して問い合わせ先を通知して対応します。</li></ul>
+      <h4>⑤ プライバシーの保護</h4>
+      <ul><li>本調査はWeb上で行い、研究者と研究対象者が対面することはないため、身体接触や密室での対応は生じません。</li><li>本調査は、チームや個人の記録体制を評価・格付けするものではなく、記録の実態と実施の条件を把握するものです。結果は個別のチームが特定されない形で公表します。</li></ul>
+      <h4>（２）研究の対象となる個人に理解を求め同意を得る方法（インフォームド・コンセント等）</h4>
+      <ul><li>研究への参加はあなた自身の自由意思によって決定され、研究への参加に同意した後であっても、研究発表までの間、撤回できます。また、そのことによってあなたが不利益な取扱いを受けることはありません。撤回の申出があった場合は、所属チーム名と対応表により当該回答を特定し、これを削除します。</li><li>「研究についての説明」を、チームの責任者を通じて電子ファイルで配付するとともにWebフォームの冒頭に掲示し、文書により説明します。内容に関する質問には、問い合わせ先を通じて研究責任者が回答します。</li><li>Webフォームの冒頭に同意確認欄を設け、「説明を読み、内容を理解したうえで、研究への参加に同意します」にチェックしたうえで回答を送信したことをもって、同意が得られたものとします。</li><li>18歳未満の方は研究対象者に含めません。</li><li>各地域連盟の責任者あての説明文書及び承諾書を作成し、地域連盟に加盟するチームの関係者を研究対象者とする調査を行うことについて承諾を得ます。</li></ul>
+      <h4>（３）研究によって生ずる個人への不利益及び危険性に対する配慮</h4>
+      <p>質問紙への回答には約15分を要します。あなたには、回答に要する時間を調査前に文書にて説明し、あなたの同意のもとで実施します。本調査で用いる質問紙は、チームにおける傷害の記録の体制や方法を尋ねるもので、回答者自身の病歴や傷害の経験は尋ねません。そのため危険性が高いとは考えにくいですが、自チームの記録体制について回答することで心理的な負担を感じる可能性があります。本調査はチームや個人の記録体制を評価・格付けするものではないことを文書で説明します。また、回答中に気分不良が生じた場合はいつでも中断できること、答えたくない設問には回答しなくてよいこと、中断や回答をしないことによりあなたが不利益を被ることはないことを文書にて説明します。さらに、Webでの回答を送信したことをもって同意となることを文書で説明し、理解を得たうえで実施します。</p>
+      <h3>10　緊急時対応、医療機関への搬送及び健康被害の補償</h3>
+      <h4>（１）緊急時対応と中止基準</h4>
+      <p>この研究はインターネット上の質問紙調査であり、身体への負担はありません。ご回答中に気分が悪くなったり、心理的な負担を感じたりした場合には、いつでもご回答を中断・中止していただけます。送信前に中止されたご回答は保存されません。また、Webフォームやデータの保存先で情報漏えいのおそれがわかった場合には、研究責任者が直ちに回答の受付を停止し、調査の再開または中止を判断します。</p>
+      <h4>（２）医療機関への搬送</h4>
+      <p>この研究はインターネット上の質問紙調査であり、研究者と対面することはなく、研究への参加が原因で医療機関への搬送が必要になる事態は想定されません。</p>
+      <h4>（３）健康被害の補償</h4>
+      <p>この研究は身体への侵襲を伴わない研究であり、研究への参加が原因で健康被害が生じることは想定されないため、補償の措置は講じておりません。</p>
+      <h3>11　研究資金</h3>
+      <p>この研究は、教育研究経費によって実施しています。</p>
+      <h3>12　利益相反（共同研究先の企業・団体等との関係を含む）</h3>
+      <p>この研究組織には、利益相反事項に該当する者はおりません。</p>
+      <h3>13　研究結果の公開</h3>
+      <p>この研究の結果は、学術論文、学会発表およびインターネット掲載にて公開します。 研究結果を公開する際には、研究対象者を特定できる個人情報等は、開示しません。</p>
+      <h3>14　その他</h3>
+      <p>WebフォームのURLおよびQRコードは、次のとおりです。この説明文書をお読みいただき、研究へのご参加に同意いただける場合には、下記のURLまたはQRコードからWebフォームにアクセスし、冒頭の同意確認欄にチェックしたうえでご回答ください。 【Webフォーム】 https://gakihirofa801097.github.io/soccer-survey-2027/</p>
+      <h3>15　問い合わせ先</h3>
+      <p>この研究は筑波大学体育系研究倫理委員会の承認を得て、研究対象者の皆様に不利益がないよう万全の注意を払って行われています。研究への協力に際してご意見ご質問などございましたら、気軽に説明者である研究責任者にお尋ねください。あるいは、体育系研究倫理委員会までご相談ください。 【問い合わせ先】</p>
+      <p class="kv">所属:　筑波大学 体育系　職名:　准教授　氏名:　眞下苑子</p>
+      <p class="kv">電話:　029-853-2667　E-mail:　mashimo.sonoko.gp@u.tsukuba.ac.jp</p>
+      <h3>【筑波大学　体育芸術エリア支援室研究支援】</h3>
+      <p class="kv">電話:　029-853-2571　E-mail:　tg-kenkyurinri@un.tsukuba.ac.jp</p>
+    </div>
+
+    <div class="askbox">
+      <p class="q">本研究への参加に同意しますか。</p>
+      <label class="opt"><input type="radio" name="agree" value="同意する" id="agreeYes">説明を読み、内容を理解したうえで、研究への参加に同意します（同意する）</label>
+      <label class="opt"><input type="radio" name="agree" value="同意しない" id="agreeNo">同意しない</label>
+    </div>
+
+    <div class="nav">
+      <button type="button" class="primary" id="toPage2">次へ進む</button>
+    </div>
+    <div class="msg warn" id="p1err" hidden>「同意する」または「同意しない」を選択してください。</div>
+    <div class="msg" id="declined" hidden>
+      ご回答は以上です。この画面を閉じていただいて差し支えありません。ご検討いただきありがとうございました。
+    </div>
+  </section>
+
+  <!-- ===================== 2ページ目：同意書 ===================== -->
+  <section id="page2" class="pad" hidden>
+    <div class="consent">
+      <h2>同　意　書</h2>
+      <p class="to">筑波大学　体育系長　殿</p>
+      <p class="body">私は、研究課題名「大学サッカーにおける傷害データの収集および活用に関する実態」について、研究に参加するにあたり、以下の説明事項について十分な説明を受け、「研究についての説明」の文書を受け取り、内容等を十分理解した上で、この研究に参加することに同意します。</p>
+      <p class="cap">＜説明事項＞　説明を受け、理解した項目にチェックしてください。</p>
+      <label class="ckrow"><input type="checkbox" id="ck1"><span><b>1.</b> 研究の名称及びこの研究の実施について体育系長の許可を受けていること</span></label>
+        <label class="ckrow"><input type="checkbox" id="ck2"><span><b>2.</b> 研究機関（研究協力機関・既存試料・情報の提供機関）の名称及び研究責任者の氏名</span></label>
+        <label class="ckrow"><input type="checkbox" id="ck3"><span><b>3.</b> 研究の目的及び意義</span></label>
+        <label class="ckrow"><input type="checkbox" id="ck4"><span><b>4.</b> 研究の方法（資料・情報の取扱を含む）</span></label>
+        <label class="ckrow"><input type="checkbox" id="ck5"><span><b>5.</b> 研究対象者として選定された理由</span></label>
+        <label class="ckrow"><input type="checkbox" id="ck6"><span><b>6.</b> 研究対象者に生じる負担及び危険性とその対処法並びに不利益及び利益</span></label>
+        <label class="ckrow"><input type="checkbox" id="ck7"><span><b>7.</b> 研究が実施又は継続されることに同意した後であっても随時撤回できること</span></label>
+        <label class="ckrow"><input type="checkbox" id="ck8"><span><b>8.</b> 研究の参加に同意しないこと又は同意を撤回したことによって研究対象者が不利益な取扱いを受けないこと</span></label>
+        <label class="ckrow"><input type="checkbox" id="ck9"><span><b>9.</b> 研究に関する情報公開の方法（外国にある者に対する試料・情報の提供に関する事項含む）</span></label>
+        <label class="ckrow"><input type="checkbox" id="ck10"><span><b>10.</b> 研究対象者の求めに応じて、他の研究対象者の個人情報等の保護及びこの研究の独創性の確保に支障がない範囲内で研究に関する資料等を閲覧できること並びにその入手又は閲覧の方法</span></label>
+        <label class="ckrow"><input type="checkbox" id="ck11"><span><b>11.</b> 個人情報の取扱い（加工方法等を含む）</span></label>
+        <label class="ckrow"><input type="checkbox" id="ck12"><span><b>12.</b> 試料・情報の収集、保管及び廃棄の方法</span></label>
+        <label class="ckrow"><input type="checkbox" id="ck13"><span><b>13.</b> 研究資金及び利益相反に関すること</span></label>
+        <label class="ckrow"><input type="checkbox" id="ck14"><span><b>14.</b> 研究により得られた結果等の取扱い</span></label>
+        <label class="ckrow"><input type="checkbox" id="ck15"><span><b>15.</b> 研究対象者からの相談等への対応</span></label>
+        <label class="ckrow"><input type="checkbox" id="ck16"><span><b>16.</b> 研究対象者の経済的負担または謝礼等</span></label>
+        <label class="ckrow"><input type="checkbox" id="ck17"><span><b>17.</b> 健康被害に対する補償の有無及びその内容</span></label>
+        <label class="ckrow"><input type="checkbox" id="ck18"><span><b>18.</b> 取得された試料・情報について、研究対象者から同意を受ける時点では特定されない将来の研究のために用いられる可能性又は他の研究機関に提供する可能性</span></label>
+      <div class="sign">
+        <div>
+          <label for="signDate">研究対象者（ご本人）　同意日</label>
+          <input type="date" id="signDate">
+        </div>
+        <div>
+          <label for="signName">氏名</label>
+          <input type="text" id="signName" placeholder="お名前をご記入ください">
+        </div>
+      </div>
+      <p class="foot-note">
+        この研究は筑波大学体育系研究倫理委員会の承認を得て、研究対象者の皆様に不利益がないよう万全の注意を払って行われています。研究への協力に際してご意見ご質問などございましたら、気軽に説明者または研究責任者にお尋ねください。あるいは、体育系研究倫理委員会までご相談ください。<br>
+        【電話：029-853-2571（体育芸術エリア支援室研究支援）　e-mail：tg-kenkyurinri@un.tsukuba.ac.jp】
+      </p>
+    </div>
+
+    <div class="nav">
+      <button type="button" class="ghost" id="backTo1">前に戻る</button>
+      <button type="button" class="primary" id="toPage3">次へ進む</button>
+    </div>
+  </section>
+
+  <!-- ===================== 3ページ目：質問紙 ===================== -->
+  <section id="page3" class="pad" hidden>
     <header class="head">
       <h1>ケガの記録と活用に関するアンケート</h1>
       <p class="lead">あなたのチームまたは所属している団体（以降、チームとします）で行っているケガ（傷害）の記録とその活用方法についてお聞きします。</p>
-      <p class="meta"><span>全32問</span><span>所要時間 10〜15分</span><span>無記名</span></p>
     </header>
 
     <form id="form" novalidate>
       <div class="group-label">ご回答の前に</div>
-      <div class="q" data-q="0">
+      <div class="q">
         <div class="qnum">—</div>
         <div class="qbody">
           <p class="qtext">所属チーム名をご記入ください。</p>
@@ -249,20 +305,21 @@
 
       <div id="questions"></div>
 
-      <div class="actions">
-        <button type="submit" class="submit" id="submitBtn">回答を送信する</button>
-        <div class="errbox hidden" id="errbox"></div>
-        <div class="donebox hidden" id="donebox"></div>
+      <div class="nav">
+        <button type="button" class="ghost" id="backTo2">前に戻る</button>
+        <button type="submit" class="primary" id="submitBtn">回答を送信する</button>
+      </div>
+      <div class="msg" id="sent" hidden>
+        <b>本フォームは倫理審査申請の添付資料として作成した確認用です。</b><br>
+        回答は送信・保存されません。実際の調査では、この画面から送信された回答が研究用の保存先に記録されます。
       </div>
     </form>
 
-    <div class="thanks" id="thanks" hidden></div>
-
     <footer class="foot">
-      アンケートは以上になります。ご協力ありがとうございました。<br>
-      本調査に関するお問い合わせ先：gakihiro.fa0802@gmail.com
+      アンケートは以上になります。ご協力ありがとうございました。
     </footer>
-  </div>
+  </section>
+
 </div>
 
 <script>
@@ -291,7 +348,7 @@
      note:"※医療資格とは、医師、看護師、理学療法士、あん摩マッサージ指圧師などの国家資格を指します。",
      opts:[{t:"はい", text:true, ph:"具体的に資格名を記入"},"いいえ"]},
 
-    {n:3, type:"radio", req:true, showIf:function(a){return a[2]==="いいえ";},
+    {n:3, type:"radio", req:true,
      text:"質問2で「いいえ」と回答した場合、あなたは医療系の公認資格を持っていますか。",
      note:"※医療系の公認資格とは、日本スポーツ協会公認アスレティックトレーナー（JSPO-AT）、健康運動指導士などの民間資格を指します。",
      opts:[{t:"はい", text:true, ph:"具体的に資格名を記入"},"いいえ"]},
@@ -335,21 +392,21 @@
      note:"※練習中に発生するケガについては、質問15以降でお聞きします。",
      opts:YND},
 
-    {n:11, type:"radio", req:true, showIf:function(a){return a[10]==="いいえ";},
+    {n:11, type:"radio", req:true,
      text:"質問10で「いいえ」と回答した場合、あなたのチームは今後、試合中に発生するケガを記録することを考えていますか。",
      opts:YND},
 
-    {n:12, type:"checkbox", req:true, showIf:function(a){return a[10]==="はい";},
+    {n:12, type:"checkbox", req:true,
      text:"質問10で「はい」と回答した場合、あなたのチームの中で誰が試合中に発生するケガを判断し、記録していますか。",
      note:"※当てはまるもの全てを選択してください。",
      opts:WHO},
 
-    {n:13, type:"radio", req:true, showIf:function(a){return a[10]==="はい";},
+    {n:13, type:"radio", req:true,
      text:"質問10で「はい」と回答した場合、記録した試合中のケガの情報をどのぐらいの頻度でまとめていますか。",
      note:"※まとめるとは、記録したケガの情報について発生数や発生率を算出したり、部位ごと、種類ごと、重症度ごとなどに分けて集計することです。",
      opts:FREQ},
 
-    {n:14, type:"checkbox", req:true, showIf:function(a){return a[10]==="はい";},
+    {n:14, type:"checkbox", req:true,
      text:"質問10で「はい」と回答した場合、誰が試合中に発生したケガの情報をまとめていますか。",
      note:"※まとめるとは、記録したケガの情報について発生数や発生率を算出したり、部位ごと、種類ごと、重症度ごとなどに分けて集計することです。\n※当てはまるもの全てを選択してください。",
      opts:WHO},
@@ -360,21 +417,21 @@
      text:"あなたのチームでは、練習中に発生するケガを記録していますか。",
      opts:YND},
 
-    {n:16, type:"radio", req:true, showIf:function(a){return a[15]==="いいえ";},
+    {n:16, type:"radio", req:true,
      text:"質問15で「いいえ」と回答した場合、あなたのチームは今後、練習中に発生するケガを記録することを考えていますか。",
      opts:YND},
 
-    {n:17, type:"checkbox", req:true, showIf:function(a){return a[15]==="はい";},
+    {n:17, type:"checkbox", req:true,
      text:"質問15で「はい」と回答した場合、あなたのチームの中で誰が練習中に発生するケガを判断し、記録していますか。",
      note:"※当てはまるもの全てを選択してください。",
      opts:WHO},
 
-    {n:18, type:"radio", req:true, showIf:function(a){return a[15]==="はい";},
+    {n:18, type:"radio", req:true,
      text:"質問15で「はい」と回答した場合、記録した練習中のケガの情報をどのぐらいの頻度でまとめていますか。",
      note:"※まとめるとは、記録したケガの情報について発生数や発生率を算出したり、部位ごと、種類ごと、重症度ごとなどに分けて集計することです。",
      opts:FREQ},
 
-    {n:19, type:"checkbox", req:true, showIf:function(a){return a[15]==="はい";},
+    {n:19, type:"checkbox", req:true,
      text:"質問15で「はい」と回答した場合、誰が練習中に発生したケガの情報をまとめていますか。",
      note:"※まとめるとは、記録したケガの情報について発生数や発生率を算出したり、部位ごと、種類ごと、重症度ごとなどに分けて集計することです。\n※当てはまるもの全てを選択してください。",
      opts:WHO},
@@ -385,13 +442,13 @@
      text:"ケガが発生した場合、その状況を記録するためのケガの調査フォームを持っていますか。",
      opts:YND},
 
-    {n:21, type:"checkbox", req:true, showIf:function(a){return a[20]==="はい";},
+    {n:21, type:"checkbox", req:true,
      text:"質問20で「はい」と回答した場合、調査フォームを用いてどのような方法でケガを記録していますか。",
      note:"※当てはまるもの全てを選択してください。",
      opts:["電子媒体（例：アプリケーション、エクセル、Googleフォーム）を使用して記録","紙を使用して記録",
            {t:"その他", text:true},{t:"わからない", text:true}]},
 
-    {n:22, type:"grid3", req:true, showIf:function(a){return a[20]==="はい";},
+    {n:22, type:"grid3", req:true,
      text:"質問20で「はい」と回答した場合、ケガの調査フォームに含まれる情報はどれですか。",
      note:"※試合と練習で使用する調査フォームが異なる場合は、どちらかで記録していれば「含まれる」を選択してください。",
      cols:["含まれる","含まれない","わからない"],
@@ -404,7 +461,7 @@
            "15) 受傷後の処置（例：応急処置、病院への受診）","16) 診断名","17) 競技復帰日",
            "18) 競技離脱期間","19) 追加事項を記入するための自由記述"]},
 
-    {n:23, type:"checkbox", req:true, showIf:function(a){return a[20]==="はい";},
+    {n:23, type:"checkbox", req:true,
      text:"質問20で「はい」と回答した場合、ケガの調査フォームに含まれる情報はどのように決定していますか。",
      note:"※当てはまるもの全てを選択してください。",
      opts:["ケガの調査方法に関する共同声明（国際オリンピック委員会や、サッカーなどの各競技団体から出ているケガの調査方法に関する共同声明）を参考に決定",
@@ -412,7 +469,6 @@
            {t:"その他", text:true},{t:"わからない", text:true}]},
 
     {n:24, type:"checkbox", req:true,
-     showIf:function(a){return a[20]==="はい" && a["22_12"]==="含まれる";},
      text:"質問22の12) 受傷したケガの重症度で「含まれる」と回答した場合、ケガの重症度をどのように定義していますか。",
      note:"※当てはまるもの全てを選択してください。",
      opts:["受傷した選手が練習や試合に参加できなかった期間で評価","医師の診断に基づく評価","手術の有無に基づく評価",
@@ -502,17 +558,12 @@
   function optText(o){ return (typeof o === "string") ? o : o.t; }
 
   Q.forEach(function(q){
-    if(q.group){
-      frag.appendChild(el("div","group-label", esc(q.group)));
-      return;
-    }
+    if(q.group){ frag.appendChild(el("div","group-label", esc(q.group))); return; }
     var wrap = el("div","q");
     wrap.id = "qw" + q.n;
-    wrap.setAttribute("data-q", q.n);
     wrap.appendChild(el("div","qnum", "Q" + q.n));
     var body = el("div","qbody");
-    var head = el("p","qtext", esc(q.text) + (q.req ? '<span class="req">必須</span>' : '<span class="req" style="color:var(--ink-3)">任意</span>'));
-    body.appendChild(head);
+    body.appendChild(el("p","qtext", esc(q.text) + (q.req ? '<span class="req">必須</span>' : '<span class="req" style="color:var(--ink-3)">任意</span>')));
     if(q.note) body.appendChild(el("p","note", esc(q.note).replace(/\n/g,"<br>")));
 
     if(q.type === "radio" || q.type === "checkbox"){
@@ -527,14 +578,11 @@
         label.appendChild(input);
         label.appendChild(el("span", null, esc(optText(o))));
         box.appendChild(label);
-
         if(typeof o === "object" && o.text){
           var sub = el("div","inline-input");
           var ti = document.createElement("input");
-          ti.type = "text";
-          ti.className = "opt-text";
+          ti.type = "text"; ti.className = "opt-text";
           ti.id = "q" + q.n + "_" + i + "_text";
-          ti.setAttribute("data-label", optText(o));
           ti.placeholder = o.ph || "具体的にご記入ください";
           ti.hidden = true;
           sub.appendChild(ti);
@@ -550,27 +598,23 @@
       });
       body.appendChild(box);
     }
-
     else if(q.type === "number"){
       var row = el("div","withunit");
       var ni = document.createElement("input");
-      ni.type = "number"; ni.id = "q" + q.n; ni.name = "q" + q.n;
+      ni.type = "number"; ni.id = "q" + q.n;
       if(q.min != null) ni.min = q.min;
       if(q.step) ni.step = q.step;
       row.appendChild(ni);
       row.appendChild(el("span", null, esc(q.unit)));
       body.appendChild(row);
     }
-
     else if(q.type === "grid3" || q.type === "likert"){
       var tw = el("div","tablewrap");
       var table = el("table","grid");
-      var thead = el("thead");
-      var htr = el("tr");
+      var thead = el("thead"), htr = el("tr");
       htr.appendChild(el("th","item","項目"));
       q.cols.forEach(function(c){ htr.appendChild(el("th", null, c)); });
-      thead.appendChild(htr);
-      table.appendChild(thead);
+      thead.appendChild(htr); table.appendChild(thead);
       var tbody = el("tbody");
       q.rows.forEach(function(r, ri){
         var tr = el("tr");
@@ -580,67 +624,49 @@
           var ip = document.createElement("input");
           ip.type = "radio";
           ip.name = "q" + q.n + "_r" + (ri+1);
-          ip.id = "q" + q.n + "_r" + (ri+1) + "_c" + (ci+1);
           ip.value = c.replace(/<br>/g,"");
           ip.setAttribute("aria-label", r + " " + c.replace(/<br>/g,""));
-          ip.addEventListener("change", function(){
-            answers[q.n + "_" + (ri+1)] = ip.value;
-            refresh();
-          });
-          td.appendChild(ip);
-          tr.appendChild(td);
+          td.appendChild(ip); tr.appendChild(td);
         });
         tbody.appendChild(tr);
       });
-      table.appendChild(tbody);
-      tw.appendChild(table);
-      body.appendChild(tw);
-
+      table.appendChild(tbody); tw.appendChild(table); body.appendChild(tw);
       if(q.type === "grid3"){
         var wtext = el("div", null);
         wtext.style.marginTop = "10px";
-        var wl = el("p","note","※「わからない」を選択された項目について、差し支えなければ項目番号を添えてご記入ください。");
+        wtext.appendChild(el("p","note","※「わからない」を選択された項目について、差し支えなければ項目番号を添えてご記入ください。"));
         var wi = document.createElement("input");
         wi.type = "text"; wi.id = "q" + q.n + "_unknown_text";
         wi.placeholder = "例：14) 天候は記録していないため不明";
-        wtext.appendChild(wl); wtext.appendChild(wi);
+        wtext.appendChild(wi);
         body.appendChild(wtext);
       }
     }
-
     else if(q.type === "rank"){
       var list = el("div","rank-list");
       q.rows.forEach(function(r, ri){
         var row2 = el("div","rank-row");
         row2.appendChild(el("span", null, esc(r)));
         var sel = document.createElement("select");
-        sel.id = "q" + q.n + "_r" + (ri+1);
         sel.className = "rankSel";
         sel.setAttribute("aria-label", r + " の順位");
         sel.appendChild(new Option("順位", ""));
         for(var v=1; v<=q.rows.length; v++) sel.appendChild(new Option(String(v), String(v)));
-        sel.addEventListener("change", function(){
-          answers[q.n + "_" + (ri+1)] = sel.value;
-          dedupeRanks();
-          refresh();
-        });
+        sel.addEventListener("change", dedupeRanks);
         row2.appendChild(sel);
         list.appendChild(row2);
       });
       body.appendChild(list);
     }
-
     else if(q.type === "textarea"){
       var ta = document.createElement("textarea");
-      ta.id = "q" + q.n; ta.name = "q" + q.n;
+      ta.id = "q" + q.n;
       ta.placeholder = "ご自由にご記入ください";
       body.appendChild(ta);
     }
-
     wrap.appendChild(body);
     frag.appendChild(wrap);
   });
-
   host.appendChild(frag);
 
   function dedupeRanks(){
@@ -654,179 +680,31 @@
     });
   }
 
-  function collect(){
-    Q.forEach(function(q){
-      if(q.group) return;
-      if(q.type === "radio"){
-        var c = document.querySelector('input[name="q'+q.n+'"]:checked');
-        answers[q.n] = c ? c.value : "";
-      } else if(q.type === "checkbox"){
-        var cs = document.querySelectorAll('input[name="q'+q.n+'"]:checked');
-        answers[q.n] = Array.prototype.map.call(cs, function(c2){ return c2.value; });
-      } else if(q.type === "number" || q.type === "textarea"){
-        var f = document.getElementById("q"+q.n);
-        answers[q.n] = f ? f.value : "";
-      }
+  // ---- ページ送り ----
+  function show(n){
+    [1,2,3].forEach(function(i){
+      document.getElementById("page"+i).hidden = (i !== n);
+      document.getElementById("s"+i).className = (i === n) ? "on" : "";
     });
+    window.scrollTo({top:0, behavior:"smooth"});
   }
-
-  function isAnswered(q){
-    if(q.type === "radio") return !!answers[q.n];
-    if(q.type === "checkbox") return (answers[q.n] || []).length > 0;
-    if(q.type === "number" || q.type === "textarea") return String(answers[q.n] || "").trim() !== "";
-    if(q.type === "grid3" || q.type === "likert"){
-      for(var i=1; i<=q.rows.length; i++){ if(!answers[q.n + "_" + i]) return false; }
-      return true;
-    }
-    if(q.type === "rank"){
-      for(var j=1; j<=q.rows.length; j++){ if(!answers[q.n + "_" + j]) return false; }
-      return true;
-    }
-    return true;
-  }
-
-  function visibleQs(){
-    return Q.filter(function(q){ return !q.group && (!q.showIf || q.showIf(answers)); });
-  }
-
-  function refresh(){
-    collect();
-    Q.forEach(function(q){
-      if(q.group) return;
-      var node = document.getElementById("qw"+q.n);
-      if(!node) return;
-      var show = !q.showIf || q.showIf(answers);
-      node.classList.toggle("hidden", !show);
-      if(!show){
-        node.querySelectorAll("input").forEach(function(i){
-          if(i.type === "radio" || i.type === "checkbox"){ i.checked = false; }
-          else { i.value = ""; if(i.classList.contains("opt-text")) i.hidden = true; }
-        });
-        node.querySelectorAll("select").forEach(function(s){ s.value = ""; });
-        node.querySelectorAll("textarea").forEach(function(t){ t.value = ""; });
-        Object.keys(answers).forEach(function(k){
-          if(k === String(q.n) || k.indexOf(q.n + "_") === 0) delete answers[k];
-        });
-      }
-    });
-    var vis = visibleQs();
-    var done = vis.filter(isAnswered).length;
-    document.getElementById("progNum").textContent = done + " / " + vis.length + " 問";
-    document.getElementById("progFill").style.width = (vis.length ? (done / vis.length * 100) : 0) + "%";
-  }
-
-  document.getElementById("form").addEventListener("change", refresh);
-  document.getElementById("form").addEventListener("input", refresh);
+  document.getElementById("toPage2").addEventListener("click", function(){
+    var yes = document.getElementById("agreeYes").checked;
+    var no  = document.getElementById("agreeNo").checked;
+    document.getElementById("p1err").hidden = (yes || no);
+    document.getElementById("declined").hidden = !no;
+    if(yes) show(2);
+  });
+  document.getElementById("backTo1").addEventListener("click", function(){ show(1); });
+  document.getElementById("toPage3").addEventListener("click", function(){ show(3); });
+  document.getElementById("backTo2").addEventListener("click", function(){ show(2); });
 
   document.getElementById("form").addEventListener("submit", function(e){
     e.preventDefault();
-    refresh();
-    var missing = visibleQs().filter(function(q){ return q.req && !isAnswered(q); });
-    var errbox = document.getElementById("errbox");
-    var donebox = document.getElementById("donebox");
-    document.querySelectorAll(".q").forEach(function(n){ n.classList.remove("missing"); });
-
-    if(missing.length){
-      donebox.classList.add("hidden");
-      errbox.classList.remove("hidden");
-      errbox.innerHTML = "未回答の設問があります：" +
-        missing.map(function(q){ return "質問" + q.n; }).join("、") +
-        "<br>該当の設問に色をつけました。ご確認ください。";
-      missing.forEach(function(q){
-        var n = document.getElementById("qw"+q.n);
-        if(n) n.classList.add("missing");
-      });
-      var first = document.getElementById("qw"+missing[0].n);
-      if(first) first.scrollIntoView({behavior:"smooth", block:"center"});
-      return;
-    }
-
-    errbox.classList.add("hidden");
-    var out = {};
-    var team = document.getElementById("teamname");
-    out["所属チーム名"] = team ? team.value.trim() : "";
-    visibleQs().forEach(function(q){
-      if(q.type === "grid3" || q.type === "likert" || q.type === "rank"){
-        q.rows.forEach(function(r, ri){ out["Q"+q.n+"-"+(ri+1)] = answers[q.n+"_"+(ri+1)] || ""; });
-      } else if(q.type === "checkbox"){
-        out["Q"+q.n] = (answers[q.n] || []).join(" / ");
-      } else {
-        out["Q"+q.n] = answers[q.n] || "";
-      }
-      var notes = [];
-      Array.prototype.forEach.call(document.querySelectorAll('#qw'+q.n+' .opt-text'), function(ti){
-        if(!ti.hidden && ti.value.trim()){
-          notes.push(ti.getAttribute("data-label") + "：" + ti.value.trim());
-        }
-      });
-      if(notes.length) out["Q"+q.n+"_記述"] = notes.join(" / ");
-      if(q.n === 22){
-        var u = document.getElementById("q22_unknown_text");
-        if(u && u.value.trim()) out["Q22_補足"] = u.value.trim();
-      }
-    });
-    out["受付番号"] = makeReceipt();
-    send(out);
+    document.getElementById("sent").hidden = false;
+    document.getElementById("sent").scrollIntoView({behavior:"smooth", block:"center"});
   });
-
-  // ---- 送信設定 -------------------------------------------------------------
-  // ENDPOINT: Google Apps Script を「ウェブアプリ」としてデプロイしたときのURL（/exec で終わるもの）
-  // FORM_TOKEN: backend.gs の TOKEN と同じ文字列
-  // USE_NO_CORS: 通常は false。公開後のテストで「送信できませんでした」と出るのに
-  //              スプレッドシートには行が入る場合だけ true にする（完了画面は出るが受信確認は行わない）
-  var ENDPOINT    = "https://script.google.com/macros/s/AKfycbwUqAcZ3BC4LrgucyFh3kR5tw_OrrBN_3jvzXMGVj_2rT1dlqVG-W4sUioXfWrisCeo0g/exec";
-  var FORM_TOKEN  = "gasdado42vwo3r73";
-  var USE_NO_CORS = false;
-
-  function makeReceipt(){
-    var chars = "0123456789ABCDEFGHJKLMNPQRSTUVWXYZ", out = "";
-    for(var i=0; i<8; i++) out += chars.charAt(Math.floor(Math.random() * chars.length));
-    return out.slice(0,4) + "-" + out.slice(4);
-  }
-
-  function showError(msg){
-    var btn = document.getElementById("submitBtn");
-    btn.disabled = false; btn.textContent = "回答を送信する";
-    var errbox = document.getElementById("errbox");
-    errbox.classList.remove("hidden");
-    errbox.innerHTML = esc(msg);
-    errbox.scrollIntoView({behavior:"smooth", block:"center"});
-  }
-
-  function showDone(receipt){
-    var form = document.getElementById("form");
-    var thanks = document.getElementById("thanks");
-    form.hidden = true;
-    thanks.hidden = false;
-    thanks.innerHTML =
-      '<h2>ご回答ありがとうございました</h2>' +
-      '<p style="margin:0">回答を受け付けました。この画面を閉じていただいて差し支えありません。</p>' +
-      '<p style="margin:10px 0 0">お問い合わせの際は、下記の受付番号をお知らせください。</p>' +
-      '<div class="rcpt">受付番号　' + esc(receipt) + '</div>';
-    window.scrollTo({top:0, behavior:"smooth"});
-  }
-
-  function send(out){
-    var btn = document.getElementById("submitBtn");
-    btn.disabled = true;
-    btn.textContent = "送信しています…";
-    var payload = { token: FORM_TOKEN, receipt: out["受付番号"], answers: out };
-    var opts = { method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body: JSON.stringify(payload) };
-    if(USE_NO_CORS) opts.mode = "no-cors";
-    fetch(ENDPOINT, opts).then(function(res){
-      if(USE_NO_CORS) return { ok:true };
-      return res.json();
-    }).then(function(j){
-      if(j && j.ok){ showDone(out["受付番号"]); }
-      else { showError((j && j.message) ? j.message : "送信できませんでした。お手数ですが、もう一度お試しください。"); }
-    }).catch(function(){
-      showError("通信に失敗しました。電波状況をご確認のうえ、もう一度「回答を送信する」を押してください。");
-    });
-  }
-
-  refresh();
 })();
 </script>
-
 </body>
 </html>
